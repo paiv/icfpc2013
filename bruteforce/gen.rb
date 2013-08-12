@@ -203,7 +203,6 @@ def gen_lambdas_recursive(size, ops, can_fold, addargs=nil)
     
     args = size_comb.collect {|x,y,z| [args_per_size[x], args_per_size[y], args_per_size_l[z]] }
     args = args.select {|a,b,c| a != nil && b != nil && c != nil}.collect {|a,b,c| cart_prod(a,b,c)}
-    # list += args.collect{|a| gen_combine3('fold', a)}.flatten(1)
     list += foldos.collect {|op| args.collect{|a| gen_combine3(op, a)}.flatten(1) }.flatten(1)
     # p size.to_s + ' *** **', list
   end
@@ -218,7 +217,6 @@ def gen_lambdas_recursive(size, ops, can_fold, addargs=nil)
     args = size_comb.collect {|x,y,z| [args_per_size[x], args_per_size[y], args_per_size[z]] }
     args = args.select {|a,b,c| a != nil && b != nil && c != nil}.collect {|a,b,c| cart_prod(a,b,c)}
     list += triops.collect {|op| args.collect{|a| gen_combine3(op, a)}.flatten(1) }.flatten(1)
-    # list += args.collect{|a| gen_combine3('if0', a)}.flatten(1)
     # p size.to_s + ' *** *', list
   end
   
@@ -230,7 +228,6 @@ def gen_lambdas_recursive(size, ops, can_fold, addargs=nil)
     args = args_per_size.zip(args_per_size_l.reverse)
     
     args = args.select {|a,b| a != nil && b != nil}.collect {|a,b| cart_prod(a,[0],b) }
-    # list += args.collect{|a| gen_combine3('tfold', a)}.flatten(1)
     list += tfoldo.collect {|op| args.collect{|a| gen_combine3(op, a)}.flatten(1) }.flatten(1)
     # p size.to_s + ' *** **', list
   end
@@ -249,9 +246,6 @@ def gen_lambdas_recursive(size, ops, can_fold, addargs=nil)
     # p size.to_s + ' **', list
   end
 
-  # p list.size
-  # list &= list
-  # p list.size
   return nil if list.size == 0
   
   $programs = {} unless $programs
