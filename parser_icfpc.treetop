@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+
+require 'treetop'
+
+grammar ProgramRules
+
+  rule program
+    "(" "lambda" ws "(" ws x:id ws ")" ws a:e ws ")" {
+      def value
+        [a.value]
+      end
+    }
+  end
+
+  rule e
+    h:(scalar / id / e_if0 / e_fold / e_op1 / e_op2) {
+      def value
+        h.value
+      end
+    }
+  end
+
+  rule scalar  
+    ("0" / "1") {
+      def value
+        text_value.to_i
+      end
+    }
+  end
+  
+  rule e_if0
+    "(" "if0" S x:e S y:e S z:e ws ")" {
+      def value
+        ['if0', x.value, y.value, z.value]
+      end
+    }
+  end
+  
+  rule e_fold
+    "(" "fold" S a:e S b:e ws "(" "lambda" ws "(" ws x:id S y:id ws ")" ws c:e ws ")" ws ")" {
+      def value
+        ['fold', a.value, b.value, ['lambda', x.value, y.value, c.value]]
+      end
+    }
+  end
+  
+  rule e_op1
+    "(" o:op1 S a:e ws ")" {
+      def value
+        [o.value, a.value]
+      end
+    }
+  end
+  
+  rule e_op2
+    "(" o:op2 S a:e S b:e ws ")" {
+      def value
+        [o.value, a.value, b.value]
+      end
+    }
+  end
+
+  rule op1
+    ("not" / "shl1" / "shr1" / "shr4" / "shr16") {
+      def value
+        text_value
+      end
+    }
+  end
+
+  rule op2
+    ("and" / "or" / "xor" / "plus") {
+      def value
+        text_value
+      end
+    }
+  end
+
+  rule id
+    [a-z] [a-z_0-9]* {
+      def value
+        text_value
+      end
+    }
+  end
+
+  rule ws
+    S?
+  end
+  rule S
+    [\s]+
+  end
+    
+end
