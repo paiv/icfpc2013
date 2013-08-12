@@ -1,14 +1,13 @@
-
-# paiv icfpc2013
+# paiv icfpc 2013
 
 http://icfpc2013.cloudapp.net/
 
 ## The Team
 @paiv
 
-contestScore: 135
-lightningScore: 27
-trainingScore: 676
+    contestScore: 135
+    lightningScore: 27
+    trainingScore: 676
 
 ## The Method
 ### The Power of Brute Force
@@ -26,9 +25,9 @@ Spent too much time on issues in brute force generator, left with no time for al
 
 ## Running
 
-`paiv.rb` -- for stats and myproblems dump
-`bruteforce/solver.rb` -- does the job
-`myeval.rb` -- compiles your program and runs through supplied integers
+    `paiv.rb` -- for stats and myproblems dump
+    `bruteforce/solver.rb` -- does the job
+    `myeval.rb` -- compiles your program and runs through supplied integers
 
 ## Software
 Ruby 2.0
